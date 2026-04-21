@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const { openRequirementDetails } = require('../utils/login');
-const { clickCheckboxLikeUser, rowCheckbox, waitForRequirementTable } = require('../utils/table');
+const { clickCheckboxLikeUser, headerCheckbox, rowCheckbox, waitForRequirementTable } = require('../utils/table');
 
 test.describe('Table guide: row selection', () => {
   test.beforeEach(async ({ page }) => {
@@ -32,6 +32,23 @@ test.describe('Table guide: row selection', () => {
       await clickCheckboxLikeUser(firstRow);
     }
 
+    await expect(firstRow).not.toBeChecked();
+    await expect(page.getByRole('button', { name: /Sort and Filter/i })).toBeVisible();
+  });
+
+  test('HP-02: header checkbox selects all visible rows and clear selection resets the bar', async ({ page }) => {
+    const selectAll = headerCheckbox(page);
+    const firstRow = rowCheckbox(page, 1);
+
+    await clickCheckboxLikeUser(selectAll);
+
+    await expect(selectAll).toBeChecked();
+    await expect(firstRow).toBeChecked();
+    await expect(page.getByText(/row(?:s)?\s+selected/i)).toBeVisible();
+
+    await page.getByRole('button', { name: /clear selection/i }).click();
+
+    await expect(selectAll).not.toBeChecked();
     await expect(firstRow).not.toBeChecked();
     await expect(page.getByRole('button', { name: /Sort and Filter/i })).toBeVisible();
   });

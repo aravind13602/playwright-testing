@@ -1,6 +1,6 @@
 const { test, expect } = require('@playwright/test');
 const { openRequirementDetails } = require('../utils/login');
-const { cellForColumn, rowCheckbox, waitForRequirementTable } = require('../utils/table');
+const { addColumnButton, cellForColumn, rowCheckbox, waitForRequirementTable } = require('../utils/table');
 
 test.describe('Table guide: non-destructive cell editing', () => {
   test.beforeEach(async ({ page }) => {
@@ -27,5 +27,21 @@ test.describe('Table guide: non-destructive cell editing', () => {
     await rowCheckbox(page, 1).dblclick({ force: true });
 
     await expect(page.getByRole('textbox')).toHaveCount(0);
+  });
+
+  test('EC-01: double-clicking the add-column cell does not open a cell editor', async ({ page }) => {
+    await addColumnButton(page).dblclick();
+
+    await expect(page.getByRole('textbox')).toHaveCount(0);
+  });
+
+  test('EC-02: rapidly switching cells does not leave overlapping editors', async ({ page }) => {
+    await cellForColumn(page, 'Job Title').dblclick();
+    await expect(page.getByRole('textbox').last()).toBeVisible();
+
+    await cellForColumn(page, 'Location').dblclick();
+
+    await expect.poll(async () => page.getByRole('textbox').count()).toBeLessThanOrEqual(1);
+    await page.keyboard.press('Escape');
   });
 });
