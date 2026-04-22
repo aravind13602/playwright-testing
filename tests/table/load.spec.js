@@ -35,4 +35,16 @@ test.describe('Table guide: loading and visual smoke checks', () => {
     expect(cellBox).not.toBeNull();
     expect(Math.abs(headerBox.x - cellBox.x)).toBeLessThan(48);
   });
+
+  test('VC-10: table and view bar use compact 12px-style text', async ({ page }) => {
+    const headerSize = await page.getByText('Job Title', { exact: true }).evaluate((node) => {
+      return Number.parseFloat(window.getComputedStyle(node).fontSize);
+    });
+    const viewBarSize = await page.getByRole('button', { name: /Sort and Filter/i }).evaluate((node) => {
+      return Number.parseFloat(window.getComputedStyle(node).fontSize);
+    });
+
+    expect(headerSize).toBeLessThanOrEqual(13);
+    expect(viewBarSize).toBeLessThanOrEqual(13);
+  });
 });

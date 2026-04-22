@@ -8,21 +8,21 @@ test.describe('Table guide: sort and filter panel', () => {
     await waitForRequirementTable(page);
   });
 
-  test('HP-20: Sort and Filter opens the panel with Sort and Filter controls', async ({ page }) => {
+  test('HP-19/HP-20: Sort and Filter opens the panel with Sort and Filter controls', async ({ page }) => {
     await page.getByRole('button', { name: /Sort and Filter/i }).click();
 
     await expect(page.getByRole('button', { name: 'Sort', exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Filter', exact: true })).toBeVisible();
   });
 
-  test('HP-21: Sort flyout can be opened without creating a rule', async ({ page }) => {
+  test('HP-19: Sort flyout can be opened without creating a rule', async ({ page }) => {
     await page.getByRole('button', { name: /Sort and Filter/i }).click();
     await page.getByRole('button', { name: 'Sort', exact: true }).click();
 
     await expect(page.getByText(/add sort/i)).toBeVisible();
   });
 
-  test('HP-22: Filter flyout can be opened without creating a rule', async ({ page }) => {
+  test('HP-20: Filter flyout can be opened without creating a rule', async ({ page }) => {
     await page.getByRole('button', { name: /Sort and Filter/i }).click();
     await page.getByRole('button', { name: 'Filter', exact: true }).click();
 

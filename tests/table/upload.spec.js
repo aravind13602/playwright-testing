@@ -6,7 +6,7 @@ const { CONTROLLED_TABLE_URL, RESUME_FILE, requireControlledConfig } = require('
 const { cellForColumn } = require('../utils/table');
 
 test.describe('Table guide: file upload scenarios @controlled', () => {
-  test('HP-07/AI-01: upload a resume PDF and verify OCR/JSON badges plus dependent cell updates', async ({ page }) => {
+  test('HP-07/HP-08/AI-01: upload a resume PDF and verify OCR/JSON badges plus dependent cell updates', async ({ page }) => {
     requireControlledConfig(test, {
       SCOUTHAWK_CONTROLLED_TABLE_URL: CONTROLLED_TABLE_URL,
       SCOUTHAWK_RESUME_FILE: RESUME_FILE,

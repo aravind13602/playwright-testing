@@ -12,7 +12,7 @@ test.describe('Table guide: column controls', () => {
     await waitForRequirementTable(page);
   });
 
-  test('HP-11: add-column button opens the column type menu without creating a column', async ({ page }) => {
+  test('HP-14: add-column button opens the column type menu without creating a column', async ({ page }) => {
     await addColumnButton(page).click();
 
     await expect(page.getByText('Text', { exact: true })).toBeVisible();
@@ -20,14 +20,14 @@ test.describe('Table guide: column controls', () => {
     await expect(page.getByText('Date', { exact: true })).toBeVisible();
   });
 
-  test('EC-16: column property flyout opens with Update Property disabled when unchanged', async ({ page }) => {
+  test('HP-15/EC-16: column property flyout opens with Update Property disabled when unchanged', async ({ page }) => {
     await openColumnPropertyFlyout(page, 'Job Title');
 
     await expect(page.getByText(/Property Name/i)).toBeVisible();
     await expect(page.getByRole('button', { name: /Update Property/i })).toBeDisabled();
   });
 
-  test('HP-16: column property flyout exposes pin, hide, and delete actions', async ({ page }) => {
+  test('HP-16/HP-17: column property flyout exposes pin, hide, and delete actions', async ({ page }) => {
     await openColumnPropertyFlyout(page, 'Job Title');
 
     await expect(page.getByText(/Hide in Public Form/i)).toBeVisible();
