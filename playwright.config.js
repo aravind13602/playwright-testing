@@ -1,8 +1,9 @@
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
+import { existsSync } from 'node:fs';
 
 const baseURL = process.env.SCOUTHAWK_BASE_URL || 'https://scouthawk-monorepo.pages.dev';
-const storageState = process.env.SCOUTHAWK_STORAGE_STATE || undefined;
+const storageState = process.env.SCOUTHAWK_STORAGE_STATE || (existsSync('auth.json') ? 'auth.json' : undefined);
 
 export default defineConfig({
   testDir: './tests',
